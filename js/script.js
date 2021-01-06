@@ -46,13 +46,10 @@ function generateRandomString(choices, length, characters, validCharacters) {
   for (var i = 0; i < Object.keys(choices).length; i++) {
     if (Object.values(choices)[i]) {
       var tempCharArr = Object.values(characters)[i];
-      var index = getRandomInt(0, tempCharArr.length - 1);
 
-      password += tempCharArr[index];
-      if (i === 2) {
-        console.log('tempCharArr: ', tempCharArr);
-        console.log('Index:', index, 'tempCharArr[index]: ', tempCharArr[i]);
-      }
+      var tempChar = '';
+      while (!tempChar) tempChar = tempCharArr[getRandomInt(0, tempCharArr.length - 1)];
+      password += tempChar;
     }
   }
 
@@ -72,7 +69,7 @@ function generatePassword() {
     lowercaseAlphaChars: 'abcdefghijklmnopqrstuvwxyz',
     uppercaseAlphaChars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     numericChars: '0123456789',
-    specialChars: ' !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
+    specialChars: '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
   };
 
   var validCharacters = '';
