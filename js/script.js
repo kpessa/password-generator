@@ -11,28 +11,28 @@ function getRandomInt(min, max) {
 
 const getLength = () => {
   let answer = '';
-  answer = prompt('Length of password?');
+  answer = window.prompt('Length of password?');
   answer = parseInt(answer);
   if (8 <= answer && answer <= 128) {
     return answer;
   } else {
-    alert('Invalid response. Length needs to be between 8 and 128 characters. Try again!');
+    window.alert('Invalid response. Length needs to be between 8 and 128 characters. Try again!');
   }
   getLength();
 };
 
 function getChoices() {
   var choices = {
-    lowercaseAlphaChars: confirm('lowercase?'),
-    uppercaseAlphaChars: confirm('uppercase?'),
-    numericChars: confirm('numeric?'),
-    specialChars: confirm('special characters?'),
+    lowercaseAlphaChars: window.confirm('lowercase?'),
+    uppercaseAlphaChars: window.confirm('uppercase?'),
+    numericChars: window.confirm('numeric?'),
+    specialChars: window.confirm('special characters?'),
   };
 
   if (Object.values(choices).reduce((prev, curr) => prev + curr)) {
     return choices;
   } else {
-    alert('Invalid Responses. You must select at least 1 character type!');
+    window.alert('Invalid Responses. You must select at least 1 character type!');
   }
   getChoices();
 }
