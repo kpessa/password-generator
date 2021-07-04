@@ -10,31 +10,23 @@ function getRandomInt(min, max) {
 }
 
 const getLength = () => {
-  let answer = '';
-  answer = window.prompt('Length of password?');
-  answer = parseInt(answer);
-  if (8 <= answer && answer <= 128) {
-    return answer;
-  } else {
-    window.alert('Invalid response. Length needs to be between 8 and 128 characters. Try again!');
-  }
-  getLength();
+  return +document.getElementById('length').value;
 };
 
 function getChoices() {
   var choices = {
-    lowercaseAlphaChars: window.confirm('lowercase?'),
-    uppercaseAlphaChars: window.confirm('uppercase?'),
-    numericChars: window.confirm('numeric?'),
-    specialChars: window.confirm('special characters?'),
+    lowercaseAlphaChars: document.getElementById('lowercase').checked,
+    uppercaseAlphaChars: document.getElementById('uppercase').checked,
+    numericChars: document.getElementById('numeric').checked,
+    specialChars: document.getElementById('specialChars').checked,
   };
 
   if (Object.values(choices).reduce((prev, curr) => prev + curr)) {
     return choices;
   } else {
     window.alert('Invalid Responses. You must select at least 1 character type!');
+    return false;
   }
-  getChoices();
 }
 
 // ! ------------------------------------------------------------------
@@ -45,19 +37,15 @@ function generateRandomString(choices, length, characters, validCharacters) {
   let password = '';
   for (var i = 0; i < Object.keys(choices).length; i++) {
     if (Object.values(choices)[i]) {
-      var tempCharArr = Object.values(characters)[i];
-      var index = getRandomInt(0, tempCharArr.length - 1);
-
+      var tempCharArr = Object.values(characters)[i].split``;
+      let index = Math.floor(Math.random() * tempCharArr.length);
       password += tempCharArr[index];
-      if (i === 2) {
-        console.log('tempCharArr: ', tempCharArr);
-        console.log('Index:', index, 'tempCharArr[index]: ', tempCharArr[i]);
-      }
     }
   }
 
   for (var i = password.length; i < length; i++) {
-    password += validCharacters[getRandomInt(0, validCharacters.length)];
+    let index = Math.floor(Math.random() * validCharacters.length);
+    password += validCharacters[index];
   }
 
   return password;
@@ -67,12 +55,13 @@ function generateRandomString(choices, length, characters, validCharacters) {
 function generatePassword() {
   var length = getLength();
   let choices = getChoices();
+  if (!choices) return;
 
   var characters = {
     lowercaseAlphaChars: 'abcdefghijklmnopqrstuvwxyz',
     uppercaseAlphaChars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     numericChars: '0123456789',
-    specialChars: ' !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
+    specialChars: '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
   };
 
   var validCharacters = '';
@@ -89,9 +78,20 @@ var generateBtn = document.querySelector('#generate');
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
-  var passwordText = document.querySelector('#password');
+  if (password) {
+    var passwordText = document.querySelector('#password');
 
-  passwordText.value = password;
+    passwordText.value = password;
+  }
+}
+
+let selectElement = document.getElementById('length');
+
+for (let i = 8; i < 20; i++) {
+  let optionElement = document.createElement('option');
+  optionElement.setAttribute('value', i);
+  optionElement.textContent = i;
+  selectElement.appendChild(optionElement);
 }
 
 // Add event listener to generate button
